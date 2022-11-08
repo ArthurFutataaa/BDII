@@ -1,0 +1,267 @@
+-- Insere dados na tabela Departamento
+INSERT INTO Departamento (Codigo, Nome, UF)
+VALUES (10, 'RH', 'RJ'),       
+            (20, 'TI', 'RJ'),	   
+            (30, 'Logística', 'DF'),	   
+            (40, 'Financeiro', 'DF'),       
+            (50, 'Venda', 'RS'),       
+            (60, 'Pesquisa', 'RJ');
+            
+-- Insere dados na tabela Empregado
+INSERT INTO Empregado(Matricula, Primeiro_Nome, Familia_Nome, Salario, Departamento_Codigo)
+VALUES (123, 'Igor', 'Pereira', 100.00, 10),        
+(159, 'Denise', 'Moreno', 440.00, 40),       
+(369, 'Marcelo', 'Neiva', 900.00, 40),       
+(456, 'Ana', 'Oliveira', 200.00, 20),       
+(789, 'Clara', 'Silva', 300.00, 30),       
+(963, 'Deyse', 'Silva', 330.00, null);
+
+-- Cria a tabela Dep_Novo a partir da tabela Departamento
+CREATE TABLE Dep_Novo
+AS SELECT Codigo, Nome, UF
+FROM Departamento;
+
+-- Cria a tabela Dep
+CREATE TABLE Dep ( Codigo 	INT NOT NULL,
+		           Nome 	VARCHAR(15) NOT NULL,
+				   UF		CHAR(2) NOT NULL,
+				   PRIMARY KEY (Codigo));
+                   
+-- Insere dados na tabela Dep a partir da selação dos dados da tabela Departamento
+INSERT INTO Dep (Codigo, Nome, UF)
+SELECT Codigo, Nome, UF 
+FROM Departamento
+
+commit;
+
+-- Listar todos os dados de todos os departamentos
+
+SELECT Codigo, Nome, UF -- Colunas especificas
+FROM Departamento;
+
+SELECT * -- Tudo
+FROM Departamento;
+
+SELECT Departamento.* -- Todos os dados dessa tabela
+FROM Departamento;
+
+-- Listar os códigos dos departamentos
+SELECT Codigo
+FROM Departamento;
+
+-- Listar os dados do departamento 30
+SELECT *
+FROM Departamento
+WHERE Codigo = 30;
+
+-- Listar o nome e o código do departamento dos empregados
+-- que não estão relacionados a um departamento
+
+SELECT Primeiro_Nome, Departamento_Codigo
+FROM Empregado
+WHERE Departamento_Codigo is null;
+
+-- Listar o nome e o código do departamento dos empregados
+-- que estão relacionados a um departamento
+
+SELECT Primeiro_Nome, Departamento_Codigo
+FROM Empregado
+WHERE Departamento_Codigo is not null;
+
+-- Liste o codigo dos departamentos dos empregados
+
+SELECT Departamento_Codigo
+FROM Empregado;
+
+-- Liste o codigo sem repetição dos departamentos dos empregados
+
+SELECT DISTINCT(Departamento_Codigo) -- Nao apresenta repetição de dados
+FROM Empregado;
+
+-- Listar os dados dos empregados que trabalham com departamento quarenta E possuam salario superios a 500
+
+SELECT *
+FROM Empregado
+WHERE Departamento_Codigo = 40
+AND Salario > 500; -- Todas as condiçoes devem ser verdadeiras
+
+-- Listar os dados dos empregados que trabalham com departamento quarenta OU possuam salario superios a 500
+
+SELECT *
+FROM Empregado
+WhERE Departamento_Codigo = 40
+OR Salario > 500; -- Alguma das condições deve ser verdadeira
+
+-- Listar os dados dos empregados que trabalhem nos departamentos 10 OU 40
+
+select *
+from Empregado
+where Departamento_Codigo = 40
+or Departamento_Codigo = 10;
+
+select *
+from Empregado
+where Departamento_Codigo in (10, 40);-- Busca dois valores de uma coluna
+
+-- Listar dados dos empregados que nao trabalhem nos depatamentos 10 e 30
+
+select *
+from Empregado
+where Departamento_Codigo not in (10, 30);
+
+select *
+from Empregado
+where Departamento_Codigo <> 30
+and Departamento_Codigo <> 10;
+ 
+-- Lista dados dos empregados que não trabalhem nos departamentos 10 e 30 inclusive os que estao sem departamento
+
+select *
+from Empregado
+where Departamento_Codigo not in (10, 30)
+or Departamento_Codigo is null;
+
+-- Listar dados dos empregados que possuem salario ente 250 e 800
+
+select *
+from Empregado
+where Salario >= 250
+and Salario <= 800;
+
+select * 
+from Empregado
+where Salario BETWEEN 250 AND 850; 
+
+-- Listar nome eo salario dos empregados do departamento 40 que possuam salario maior que todos os empregados do departamento 30.
+
+-- Ultilizando o ALL (maior que todos)
+select Primeiro_Nome, Salario 
+from Empregado
+where Departamento_Codigo = 40 and 
+salario > all (
+select Salario 
+from Empregado 
+where Departamento_Codigo = 30
+);
+
+-- Ultilizando o MAX (o maiorque todos)
+select Primeiro_Nome, Salario
+from Empregado 
+where Departamento_Codigo = 40 and
+Salario > (
+select max(Salario)
+from Empregado 
+where Departamento_Codigo = 30
+);
+
+-- Listar o nome e o salario dos empregados do departamento 40 que possuem salario maior que pelo menos um dos empregados do departamento 30.
+
+-- Ultilizando o MIN (pelo menos maior que algum)
+select Primeiro_Nome, Salario
+from Empregado 
+where Departamento_Codigo = 40 and
+Salario > (
+select min(Salario)
+from Empregado 
+where Departamento_Codigo = 30
+);
+
+-- Ultilizando o ANY (pelo menos um)
+select Primeiro_Nome, Salario 
+from Empregado
+where Departamento_Codigo = 40 and 
+salario > any (
+select Salario 
+from Empregado 
+where Departamento_Codigo = 30
+);
+
+-- Listar o nome e o salario dos empregados acrescidos de R$50,00
+
+-- nao adiciona no bando, somente na tela
+select Primeiro_Nome, Salario + 50.00
+from empregado;
+
+-- ultilizar ALIAS (apelido)
+-- uma nova coluna (temporaria) com os valores
+select Primeiro_Nome, Salario + 50.00 as Novo_Salario
+from Empregado;
+
+-- listar o nome e o salario dos empregados decrecidos de R$50,00
+select Primeiro_Nome, Salario - 50.00 as Novo_Salario
+from Empregado;
+
+-- listar o nome e o salario dos emprgados acrescidos 10%
+select Primeiro_Nome, truncate( Salario *1.1, 2) as Novo_Salario
+from Empregado;
+
+-- lisatr o nome e a metade do salario dos empregados 
+select Primeiro_Nome, truncate(salario / 2, 2) as Novo_Salario
+from Empregado;
+
+-- Sempre arredonda pra cima
+-- ROUND (15.654, 2) = 15.65
+-- ROUND (15.655, 2) = 15.66
+
+-- Mantem o mesmio numero
+-- TRUNCATE (15.654, 2) = 15.65
+-- TRUNCATE (15.655, 2) = 15.65
+
+-- listar o nome e salrio dos empregados cujo salario seja divisivio po 3.
+
+-- MOD %
+select Primeiro_Nome, Salario
+from Empregado
+where Salario % 3 = 0;
+
+-- Listar o total de empregados que estão alocados em departamentos
+
+Select count(departamento_codigo)
+from Empregado;
+
+-- listar o total empregado que estão alocados ao apartamento 40
+Select count(departamento_codigo)
+from Empregado
+WHERE Departamento_codigo = 40;
+
+-- listar o total dos salários dos empregados
+select sum(salario)
+from empregado;
+
+-- listar o total dos salários dos empregados do departamento 40
+select sum(salario)
+from empregado
+where Departamento_Codigo = 40;
+
+-- listar a média dos salários dos empregados que estão alocados no departamento 40
+select avg(salario)
+from empregado
+where Departamento_Codigo = 40;
+
+-- listar o maior salario dos empregados que estão alocados no departamento 40
+select max(salario)
+from empregado
+where Departamento_Codigo = 40;
+
+-- listar o menor salario dos empregados que estão alocados no departamento 40
+select min(salario)
+from empregado
+where Departamento_Codigo = 40;
+
+-- Ordenar o resultado da consulta pelos campos:
+-- Primeiro_nome em ordem alfabética
+select * 
+from empregado
+order by Primeiro_Nome asc;
+
+-- Ordenar o resultado da consulta pelos campos:
+-- Primeiro_nome em ordem do Z ao A
+select * 
+from empregado
+order by Primeiro_Nome desc;
+
+-- Ordenar o resultado da consulta pelos campos:
+-- Primeiro_nome em ordem do Z ao A
+select * 
+from empregado
+order by Primeiro_Nome desc;
