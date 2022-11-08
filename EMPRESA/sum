@@ -1,0 +1,8 @@
+-- listar o total dos salários dos empregados
+select sum(salario)
+from empregado;
+
+-- listar o total dos salários dos empregados do departamento 40
+select sum(salario)
+from empregado
+where Departamento_Codigo = 40;

@@ -1,0 +1,53 @@
+-- Listar nome eo salario dos empregados do departamento 40 que possuam salario maior que todos os empregados do departamento 30.
+
+-- Ultilizando o ALL (maior que todos)
+select Primeiro_Nome, Salario 
+from Empregado
+where Departamento_Codigo = 40 and 
+salario > all (
+select Salario 
+from Empregado 
+where Departamento_Codigo = 30
+);
+
+-- Ultilizando o MAX (o maiorque todos)
+select Primeiro_Nome, Salario
+from Empregado 
+where Departamento_Codigo = 40 and
+Salario > (
+select max(Salario)
+from Empregado 
+where Departamento_Codigo = 30
+);
+
+-- Listar o nome e o salario dos empregados do departamento 40 que possuem salario maior que pelo menos um dos empregados do departamento 30.
+
+-- Ultilizando o MIN (pelo menos maior que algum)
+select Primeiro_Nome, Salario
+from Empregado 
+where Departamento_Codigo = 40 and
+Salario > (
+select min(Salario)
+from Empregado 
+where Departamento_Codigo = 30
+);
+
+-- Ultilizando o ANY (pelo menos um)
+select Primeiro_Nome, Salario 
+from Empregado
+where Departamento_Codigo = 40 and 
+salario > any (
+select Salario 
+from Empregado 
+where Departamento_Codigo = 30
+);
+
+-- listar o maior salario dos empregados que estão alocados no departamento 40
+select max(salario)
+from empregado
+where Departamento_Codigo = 40;
+
+-- listar o menor salario dos empregados que estão alocados no departamento 40
+select min(salario)
+from empregado
+where Departamento_Codigo = 40;

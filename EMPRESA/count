@@ -1,0 +1,9 @@
+-- Listar o total de empregados que estão alocados em departamentos
+
+Select count(departamento_codigo)
+from Empregado;
+
+-- listar o total empregado que estão alocados ao apartamento 40
+Select count(departamento_codigo)
+from Empregado
+WHERE Departamento_codigo = 40;

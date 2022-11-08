@@ -1,0 +1,4 @@
+-- listar a média dos salários dos empregados que estão alocados no departamento 40
+select avg(salario)
+from empregado
+where Departamento_Codigo = 40;

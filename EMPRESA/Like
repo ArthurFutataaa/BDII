@@ -1,0 +1,58 @@
+create table Aluno(
+     Aluno_id INT NOT NULL,
+	 Nome	VARCHAR(50) NOT NULL,
+     Matricula INT NOT NULL,
+     Idade INT NOT NULL,
+  	 Cidade	VARCHAR(50) NOT NULL,
+     Curso_id int not null,
+     PRIMARY KEY (Aluno_id),
+      CONSTRAINT fk_curso
+    	FOREIGN KEY (Curso_id)
+    	REFERENCES Curso (Curso_id));
+     
+     create table Curso(
+     Curso_id INT NOT NULL,
+     Nome VARCHAR(50) NOT NULL,
+     Area VARCHAR(50) NOT NULL,
+     PRIMARY KEY (Curso_id));
+     
+     -- inserir dados 
+     INSERT INTO Curso (Curso_id, Nome, Area)
+     Values (1, 'Tecnico em Informatica', 'Tecnologia'),
+     (2, 'Tecnico em Enfermagem', 'Saude'),
+     (3, 'Tecnico em Recursos Humanos', 'Administração');
+     
+     INSERT INTO Aluno (Aluno_id, Matricula, Idade, Cidade, Curso_id, Nome)
+     Values (1, 1234, 15, 'Lins', 1, 'João'),
+     (2, 4321, 18, 'Cafelandia', 2, 'Maria'),
+     (3, 2314, 16, 'Getulina', 3, 'Luiza'),
+     (4, 3214, 17, 'Lins', 1, 'Trajano'),
+     (5, 4123, 22, 'Lins', 1, 'Moisés'),
+     (6, 4231, 33, 'Lins', 2, 'Marcelo'),
+     (7, 1342, 16, 'Lins', 3, 'Marcos'),
+     (8, 1423, 15, 'Guaimbê', 3, 'Alex'),
+     (9, 2413, 19, 'Lins', 1, 'Denise'),
+     (10, 2134, 15, 'Lins', 1, 'Giovanna'),
+     (11, 3422, 15, 'Lins', null, 'Diego');
+     
+     -- Consultas
+     -- A.
+     
+     Select *
+     from Aluno
+     Where Nome LIKE 'M%';
+     
+     -- b 
+     Select *
+     from Aluno
+     Where Nome LIKE '%A';
+     
+     -- c
+     Select *
+     from Aluno
+     Where Nome LIKE '%i%';
+     
+     -- d 
+     Select *
+     from Aluno
+     Where Nome LIKE '%n_';

@@ -1,0 +1,17 @@
+-- Ordenar o resultado da consulta pelos campos:
+-- Primeiro_nome em ordem alfabética
+select * 
+from empregado
+order by Primeiro_Nome asc;
+
+-- Ordenar o resultado da consulta pelos campos:
+-- Primeiro_nome em ordem do Z ao A
+select * 
+from empregado
+order by Primeiro_Nome desc;
+
+-- Ordenar o resultado da consulta pelos campos:
+-- Primeiro_nome em ordem do Z ao A
+select * 
+from empregado
+order by Primeiro_Nome desc;
